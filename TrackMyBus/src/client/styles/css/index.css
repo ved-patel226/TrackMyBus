@@ -20,9 +20,12 @@ body {
   font-family: "Neue Montreal", sans-serif;
 }
 
-#bus_marker {
-  width: 64px;
-  height: 64px;
+#location_marker {
+  width: 48px;
+  height: 48px;
+  display: block;
+  transform: translate(0%, 50%);
+  transform-origin: center;
 }
 
 /*# sourceMappingURL=index.css.map */

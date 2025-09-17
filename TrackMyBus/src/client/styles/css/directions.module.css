@@ -1,0 +1,38 @@
+.directions {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 999;
+  backdrop-filter: blur(10px);
+}
+.directions .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-family: "Migra", sans-serif;
+}
+.directions .top h1 {
+  font-size: 32px;
+}
+.directions .top h2 {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+/* Phones: full width and centered with side gutters */
+@media (max-width: 600px) {
+  .directions {
+    left: 50%;
+    right: auto;
+    width: calc(100% - 32px);
+    transform: translateX(-50%);
+    top: 20px;
+    border-radius: 8px;
+    padding: 16px;
+  }
+}
+
+/*# sourceMappingURL=directions.module.css.map */

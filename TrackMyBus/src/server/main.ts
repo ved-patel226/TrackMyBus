@@ -28,7 +28,6 @@ const addresses = getLocalIpAddress();
 const app = express();
 
 app.get("/api/secrets", async (req, res) => {
-
   const data = {
     GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY || "",
   };

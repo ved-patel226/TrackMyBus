@@ -3,11 +3,11 @@ import {
   AdvancedMarker,
   APIProvider,
   Map,
-  MapCameraChangedEvent,
-  Pin,
+  useMap,
+  useMapsLibrary,
 } from "@vis.gl/react-google-maps";
 import Secrets from "../../lib/types/Misc";
-
+import styles from "../../styles/css/directions.module.css";
 const NavigationView = ({ API_KEY }: { API_KEY: Secrets }) => {
   const [currentPosition, setCurrentPosition] = useState<{
     lat: number;
@@ -17,10 +17,6 @@ const NavigationView = ({ API_KEY }: { API_KEY: Secrets }) => {
 
   const [stickToPosition, setStickToPosition] = useState(true);
   const [stillDragging, setStillDragging] = useState(false);
-
-  useEffect(() => {
-    console.log("[EVENT] Map Position:", currentPosition);
-  }, [currentPosition]);
 
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
@@ -66,6 +62,7 @@ const NavigationView = ({ API_KEY }: { API_KEY: Secrets }) => {
               center: currentPosition
                 ? { lat: currentPosition.lat, lng: currentPosition.lng }
                 : { lat: 0, lng: 0 },
+              zoom: 16,
             }
           : {
               defaultCenter: currentPosition
@@ -86,16 +83,79 @@ const NavigationView = ({ API_KEY }: { API_KEY: Secrets }) => {
           setStillDragging(false);
         }}
       >
+        <Directions />
+
         {currentPosition && (
           <AdvancedMarker position={currentPosition}>
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="50" cy="50" r="50" />
-            </svg>
+            <img
+              id="location_marker"
+              src="./images/crosshair.png"
+              alt="Current Location Marker"
+            />
           </AdvancedMarker>
         )}
       </Map>
     </APIProvider>
   );
 };
+
+function Directions() {
+  const map = useMap();
+  const routesLibrary = useMapsLibrary("routes");
+  const [directionsService, setDirectionsService] =
+    useState<google.maps.DirectionsService>();
+  const [directionsRenderer, setDirectionsRenderer] =
+    useState<google.maps.DirectionsRenderer>();
+  const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]);
+  const selected = routes[0];
+  const leg = selected?.legs[0];
+
+  useEffect(() => {
+    if (!routesLibrary || !map) return;
+    setDirectionsService(new routesLibrary.DirectionsService());
+    setDirectionsRenderer(
+      new routesLibrary.DirectionsRenderer({
+        draggable: false,
+        map,
+      })
+    );
+  }, [routesLibrary, map]);
+
+  useEffect(() => {
+    if (!directionsService || !directionsRenderer) return;
+
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const origin = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      directionsService
+        .route({
+          origin,
+          destination: "100 Technology Dr, Edison, NJ 08837",
+          travelMode: google.maps.TravelMode.DRIVING,
+          provideRouteAlternatives: false,
+        })
+        .then((response) => {
+          directionsRenderer.setDirections(response);
+          setRoutes(response.routes);
+        })
+        .catch((err) => console.error("Directions request failed:", err));
+    });
+
+    return () => directionsRenderer.setMap(null);
+  }, [directionsService, directionsRenderer]);
+
+  if (!leg) return null;
+
+  return (
+    <div className={styles.directions}>
+      <div className={styles.top}>
+        <h1>{leg.duration?.text}</h1>
+
+        <h2>{selected.summary}</h2>
+      </div>
+
+      <p>{leg.distance?.text}</p>
+    </div>
+  );
+}
 
 export default NavigationView;
