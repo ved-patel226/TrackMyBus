@@ -23,6 +23,7 @@ body {
     font-family: 'Neue Montreal', sans-serif;
 }
 
-#map [tabindex="0"]>div:first-child {
-    will-change: transform;
+#bus_marker {
+    width: 64px;
+    height: 64px;
 }

@@ -7,8 +7,6 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 function App() {
   const { data } = useSWR<Secrets>("/api/secrets", fetcher);
 
-  console.log(data?.GOOGLE_MAPS_API_KEY);
-
   if (!data) {
     return <div>Loading...</div>;
   }
