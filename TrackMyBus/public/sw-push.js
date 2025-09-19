@@ -37,11 +37,11 @@ const saveSubscription = async subscription => {
 };
 
 self.addEventListener("activate", async () => {
-  console.log("Hello from service worker.");
+  console.log("[SW.JS]: __init__");
 
-  try {
+try {
     const applicationServerKey = urlB64ToUint8Array(
-      "BLHxWiNVmr7ROB8O3KpPRJFAMhMypwe4X9TdWMmhsPSzHszo32PDkndpvWx3H0OY2HwFCQRU98JBpZ_AEsVxWG4"
+      "BJT7LfKn4PxAhHNboZ9Du9ahsqO7hB84LuCTBIn1hePqV8s9ZRa-ZP5X13-pztOWIbrJo5O-19JHyda27YLN_c4"
     );
 
     const options = { applicationServerKey, userVisibleOnly: true };
@@ -68,13 +68,7 @@ self.addEventListener("activate", async () => {
   }
 });
 
-self.addEventListener("push", function(event) {
-  if (event.data) {
-    console.log("Push event!! ", event.data.text());
-  } else {
-    console.log("Push event but no data");
-  }
-});
+
 
 self.addEventListener("push", function(event) {
   if (event.data) {

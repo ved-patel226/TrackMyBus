@@ -147,13 +147,24 @@ function Directions() {
 
   return (
     <div className={styles.directions}>
-      <div className={styles.top}>
+      <div className={styles.center}>
         <h1>{leg.duration?.text}</h1>
 
-        <h2>{selected.summary}</h2>
+        <div className={styles.bottom}>
+          <p className="montreal">{leg.distance?.text}</p>
+          <p className="montreal">
+            {(() => {
+              const now = new Date();
+              const durationInMs = (leg.duration?.value || 0) * 1000;
+              const arrivalTime = new Date(now.getTime() + durationInMs);
+              return arrivalTime.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+            })()}
+          </p>
+        </div>
       </div>
-
-      <p>{leg.distance?.text}</p>
     </div>
   );
 }

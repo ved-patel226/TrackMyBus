@@ -1,6 +1,6 @@
-.directions {
+.notification {
     position: fixed;
-    bottom: 20px;
+    top: 20px;
     right: 20px;
 
     height: fit-content;
@@ -21,7 +21,7 @@
         font-family: "Migra", sans-serif;
 
         h1 {
-            font-size: 48px !important;
+            font-size: 32px !important;
         }
 
         .bottom {
@@ -30,7 +30,7 @@
             margin-top: 8px;
 
             p {
-                font-size: 24px;
+                font-size: 18px;
                 font-weight: 500;
             }
         }
@@ -39,12 +39,12 @@
 
 /* Phones: full width and centered with side gutters */
 @media (max-width: 600px) {
-    .directions {
+    .notification {
         left: 50%;
         right: auto;
         width: calc(100% - 32px);
         transform: translateX(-50%);
-        bottom: 20px;
+        top: 20px;
         border-radius: 8px;
         padding: 16px;
     }

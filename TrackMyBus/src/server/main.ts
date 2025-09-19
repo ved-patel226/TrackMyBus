@@ -30,12 +30,14 @@ const dummyDb = { subscription: null };
 let VAPID_PUBLIC = process.env.VAPID_PUBLIC || "";
 let VAPID_PRIVATE = process.env.VAPID_PRIVATE || "";
 
+
 if (!VAPID_PUBLIC || !VAPID_PRIVATE) {
   const keys = webpush.generateVAPIDKeys();
   VAPID_PUBLIC = keys.publicKey;
   VAPID_PRIVATE = keys.privateKey;
   console.warn("Generated VAPID keys. For production, set VAPID_PUBLIC and VAPID_PRIVATE in .env");
 }
+
 
 webpush.setVapidDetails("mailto:talk2ved11@gmail.com", VAPID_PUBLIC, VAPID_PRIVATE);
 
@@ -54,10 +56,17 @@ app.get("/api/vapidPublicKey", (_, res) => {
 });
 
 app.post("/save-subscription", async (req, res) => {
-  console.log("Received subscription:", req.body);
-  const subscription = req.body;
-  await saveToDatabase(subscription); 
-  res.json({ message: "success" });
+  try {
+    const subscription = req.body;
+    if (!subscription || Object.keys(subscription).length === 0) {
+      return res.status(400).json({ error: "Invalid subscription object" });
+    }
+    await saveToDatabase(subscription); 
+    res.json({ message: "success" });
+  } catch (error) {
+    console.error("Error saving subscription:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 app.get("/send-notification", (req, res) => {

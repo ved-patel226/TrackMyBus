@@ -12,6 +12,13 @@
     font-style: normal;
 }
 
+.montreal {
+    font-family: 'Neue Montreal', sans-serif !important;
+}
+
+.migra {
+    font-family: 'Migra', sans-serif !important;
+}
 
 * {
     margin: 0;
@@ -29,4 +36,8 @@ body {
     display: block;
     transform: translate(0%, 50%);
     transform-origin: center;
+}
+
+.icon {
+    font-size: 64px;
 }

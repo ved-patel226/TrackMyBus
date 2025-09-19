@@ -16,6 +16,7 @@
     "express": "^5.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
     "react-pwa-push-notifications": "^1.0.0",
     "swr": "^2.3.6",
     "tsx": "^4.19.3",

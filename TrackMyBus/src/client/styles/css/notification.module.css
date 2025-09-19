@@ -1,6 +1,6 @@
-.directions {
+.notification {
   position: fixed;
-  bottom: 20px;
+  top: 20px;
   right: 20px;
   height: fit-content;
   padding: 20px;
@@ -8,7 +8,7 @@
   z-index: 999;
   backdrop-filter: blur(10px);
 }
-.directions .center {
+.notification .center {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -16,30 +16,30 @@
   margin-bottom: 10px;
   font-family: "Migra", sans-serif;
 }
-.directions .center h1 {
-  font-size: 48px !important;
+.notification .center h1 {
+  font-size: 32px !important;
 }
-.directions .center .bottom {
+.notification .center .bottom {
   display: flex;
   gap: 16px;
   margin-top: 8px;
 }
-.directions .center .bottom p {
-  font-size: 24px;
+.notification .center .bottom p {
+  font-size: 18px;
   font-weight: 500;
 }
 
 /* Phones: full width and centered with side gutters */
 @media (max-width: 600px) {
-  .directions {
+  .notification {
     left: 50%;
     right: auto;
     width: calc(100% - 32px);
     transform: translateX(-50%);
-    bottom: 20px;
+    top: 20px;
     border-radius: 8px;
     padding: 16px;
   }
 }
 
-/*# sourceMappingURL=directions.module.css.map */
+/*# sourceMappingURL=notification.module.css.map */
