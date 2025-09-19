@@ -10,15 +10,19 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.7",
+    "@types/web-push": "^3.6.4",
     "@vis.gl/react-google-maps": "^1.5.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-pwa-push-notifications": "^1.0.0",
     "swr": "^2.3.6",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
-    "vite-express": "*"
+    "vite-express": "*",
+    "vite-plugin-pwa": "^1.0.3",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@types/express": "^5.0.1",
