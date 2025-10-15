@@ -118,39 +118,33 @@ export default function Notification_() {
   };
 
   return (
-    <div className={styles.notification} style={{ padding: 8 }}>
-      {status === "idle" ? (
-        <IoIosNotificationsOutline
-          className="icon"
-          onClick={subscribeOnClick}
-          style={{ transition: "color 0.3s", color: "#888" }}
-        />
-      ) : status === "Subscribed successfully" ? (
-        <IoIosNotifications
-          className="icon"
-          onClick={unsubscribeOnClick}
-          style={{
-            transition: "color 0.3s",
-            color: "#4caf50",
-            animation: "pop 0.4s",
-          }}
-        />
-      ) : status === "Unsubscribed successfully" ? (
-        <IoIosNotificationsOff
-          className="icon"
-          onClick={subscribeOnClick}
-          style={{
-            transition: "color 0.3s",
-            color: "#f44336",
-            animation: "fade 0.4s",
-          }}
-        />
-      ) : (
-        <IoIosNotificationsOutline
-          className="icon"
-          style={{ transition: "color 0.3s", color: "#888" }}
-        />
+    <>
+      {status === "Subscribed successfully" ? null : (
+        <div className={styles.notification} style={{ padding: 8 }}>
+          {status === "idle" ? (
+            <IoIosNotificationsOutline
+              className="icon"
+              onClick={subscribeOnClick}
+              style={{ transition: "color 0.3s", color: "#888" }}
+            />
+          ) : status === "Unsubscribed successfully" ? (
+            <IoIosNotificationsOff
+              className="icon"
+              onClick={subscribeOnClick}
+              style={{
+                transition: "color 0.3s",
+                color: "#f44336",
+                animation: "fade 0.4s",
+              }}
+            />
+          ) : (
+            <IoIosNotificationsOutline
+              className="icon"
+              style={{ transition: "color 0.3s", color: "#888" }}
+            />
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }

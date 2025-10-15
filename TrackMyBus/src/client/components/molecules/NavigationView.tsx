@@ -110,6 +110,12 @@ function Directions() {
   const selected = routes[0];
   const leg = selected?.legs[0];
 
+  const [routeData, setRouteData] = useState<any>(null);
+
+  useEffect(() => {
+    console.log(routeData);
+  }, [routeData]);
+
   useEffect(() => {
     if (!routesLibrary || !map) return;
     setDirectionsService(new routesLibrary.DirectionsService());
@@ -124,21 +130,56 @@ function Directions() {
   useEffect(() => {
     if (!directionsService || !directionsRenderer) return;
 
-    navigator.geolocation.getCurrentPosition((pos) => {
-      const origin = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      directionsService
-        .route({
-          origin,
-          destination: "100 Technology Dr, Edison, NJ 08837",
-          travelMode: google.maps.TravelMode.DRIVING,
-          provideRouteAlternatives: false,
-        })
-        .then((response) => {
-          directionsRenderer.setDirections(response);
-          setRoutes(response.routes);
-        })
-        .catch((err) => console.error("Directions request failed:", err));
-    });
+    const fetchRoute = async () => {
+      const data = await fetch("/api/get-route", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          route_id: 1,
+        }),
+      }).then((res) => res.json());
+
+      setRouteData(data);
+
+      navigator.geolocation.getCurrentPosition((pos) => {
+        const origin = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+
+        const stops = Array.isArray(data?.stops) ? data.stops : [];
+        const addresses = stops
+          .map((s: any) => s?.location?.value)
+          .filter((a: any) => typeof a === "string" && a.length > 0);
+
+        const destinationAddress =
+          addresses.length > 0
+            ? addresses[addresses.length - 1]
+            : "100 Technology Dr, Edison, NJ 08837";
+
+        const waypoints: google.maps.DirectionsWaypoint[] =
+          addresses.length > 1
+            ? addresses
+                .slice(0, addresses.length - 1)
+                .map((addr: any) => ({ location: addr, stopover: true }))
+            : [];
+
+        console.log(origin, destinationAddress, waypoints);
+
+        directionsService
+          .route({
+            origin,
+            destination: destinationAddress,
+            travelMode: google.maps.TravelMode.DRIVING,
+            provideRouteAlternatives: false,
+            waypoints,
+          })
+          .then((response) => {
+            directionsRenderer.setDirections(response);
+            setRoutes(response.routes);
+          })
+          .catch((err) => console.error("Directions request failed:", err));
+      });
+    };
+
+    fetchRoute();
 
     return () => directionsRenderer.setMap(null);
   }, [directionsService, directionsRenderer]);
@@ -147,6 +188,9 @@ function Directions() {
 
   return (
     <div className={styles.directions}>
+      <div className={styles.top}>
+        <h1>{routeData ? routeData.name : "Loading..."}</h1>
+      </div>
       <div className={styles.center}>
         <h1>{leg.duration?.text}</h1>
 

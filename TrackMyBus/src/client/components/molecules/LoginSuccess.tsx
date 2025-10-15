@@ -16,13 +16,6 @@ export default function LoginSuccess() {
       desc: "Track your bus and arrival times",
       path: "/student",
     },
-    {
-      id: "administrator",
-      title: "Administrator",
-      icon: "👪",
-      desc: "Manage routes, buses, and users",
-      path: "/administrator",
-    },
   ];
 
   return (

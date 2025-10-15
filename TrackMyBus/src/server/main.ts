@@ -32,6 +32,8 @@ const dummyDb = { subscription: null };
 let VAPID_PUBLIC = process.env.VAPID_PUBLIC || "";
 let VAPID_PRIVATE = process.env.VAPID_PRIVATE || "";
 
+let mongo = new MongoDB(process.env.MONGO_URI || "", "TrackMyBus");
+
 
 if (!VAPID_PUBLIC || !VAPID_PRIVATE) {
   const keys = webpush.generateVAPIDKeys();
@@ -89,15 +91,31 @@ app.get("/api/secrets", async (req, res) => {
   res.json(data);
 });
 
+app.post("/api/get-route", async (req, res) => {
+  try {
+    const route_id = req.body.route_id as string;
+    if (!route_id) {
+      return res.status(400).json({ error: "route_id query parameter is required" });
+    }
+
+    const route = await mongo.db.collection("routes").findOne({ id: route_id });
+    if (!route) {
+      return res.status(404).json({ error: "Route not found" });
+    }
+
+    res.json(route);
+  } catch (error) {
+    console.error("Error fetching route:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 app.get("/hello", (_, res) => {
   res.send("Hello Vite + React + TypeScript!");
 });
 
 app.use(express.static(path.join("public")));
-console.log(VAPID_PRIVATE, VAPID_PUBLIC);
-
-let mongo = new MongoDB(process.env.MONGO_URI || "", "TrackMyBus");
-
 
 
 

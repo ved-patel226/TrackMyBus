@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../../styles/css/login.module.css";
+import Notification_ from "../Atoms/Notification";
 
 declare global {
   // google identity services global
@@ -118,31 +119,35 @@ const Login: React.FC<LoginProps> = ({ clientId, onSuccess, onError }) => {
   if (redirecting) return null;
 
   return (
-    <div className={styles.loginContainer}>
-      <div className={styles.loginBox}>
-        <div className={styles.header}>
-          <h2>Sign in with Google</h2>
-          <p>Access your TrackMyBus account using Google</p>
-        </div>
+    <>
+      <Notification_ />
 
-        {user ? (
-          <div className={styles.userInfo}>
-            <div>
-              <div>{user.name || user.email}</div>
-              <div>{user.email}</div>
+      <div className={styles.loginContainer}>
+        <div className={styles.loginBox}>
+          <div className={styles.header}>
+            <h2>Sign in with Google</h2>
+            <p>Access your TrackMyBus account using Google</p>
+          </div>
+
+          {user ? (
+            <div className={styles.userInfo}>
+              <div>
+                <div>{user.name || user.email}</div>
+                <div>{user.email}</div>
+              </div>
+              <button className={styles.signOutBtn} onClick={handleSignOut}>
+                Sign out
+              </button>
             </div>
-            <button className={styles.signOutBtn} onClick={handleSignOut}>
-              Sign out
-            </button>
-          </div>
-        ) : (
-          <div className={styles.googleBtnWrapper}>
-            <div ref={googleButtonRef} />
-            <p>By continuing you agree to the terms of service.</p>
-          </div>
-        )}
+          ) : (
+            <div className={styles.googleBtnWrapper}>
+              <div ref={googleButtonRef} />
+              <p>By continuing you agree to the terms of service.</p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -9,7 +9,6 @@ import {
 import NavigationView from "./components/molecules/NavigationView";
 import Login from "./components/molecules/Login";
 import LoginSuccess from "./components/molecules/LoginSuccess";
-import Notification_ from "./components/Atoms/Notification";
 
 import Secrets from "./lib/types/Misc";
 
@@ -25,7 +24,6 @@ function App() {
   return (
     <>
       <Router>
-        <Notification_ />
         <Routes>
           <Route path="/login-success" element={<LoginSuccess />} />
           <Route
