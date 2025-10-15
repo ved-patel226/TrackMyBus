@@ -1,0 +1,113 @@
+.container {
+    min-height: 60vh;
+    padding: 48px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    min-height: 80vh;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    max-width: 900px;
+}
+
+.title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #0b2140;
+}
+
+.subtitle {
+    margin: 8px 0 0 0;
+    color: #345;
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+/* Grid of role cards */
+.grid {
+    width: 100%;
+    max-width: 980px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: stretch;
+}
+
+/* Card */
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    box-shadow: 0 6px 18px rgba(12, 30, 60, 0.08);
+    transition: transform 180ms ease, box-shadow 180ms ease;
+    cursor: pointer;
+    text-align: center;
+
+    &:focus,
+    &:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 14px 30px rgba(12, 30, 60, 0.12);
+        outline: none;
+    }
+
+
+    .cardTitle {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+        color: #07203b;
+    }
+
+    .cardDesc {
+        margin: 0;
+        font-size: 13px;
+        color: #4b6578;
+        opacity: 0.95;
+    }
+
+
+    .emoji {
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        background: linear-gradient(180deg, #f0f6ff, #ffffff);
+        box-shadow: 0 6px 14px rgba(10, 25, 50, 0.06);
+    }
+
+}
+
+
+
+
+
+
+/* Responsive adjustments */
+@media (max-width: 880px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 520px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 32px 16px;
+    }
+}

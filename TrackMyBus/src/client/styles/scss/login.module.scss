@@ -1,0 +1,75 @@
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+
+    .loginBox {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        padding: 2.5rem 2rem;
+        max-width: 350px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .header {
+        text-align: center;
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+
+        p {
+            font-size: 1rem;
+            color: #555;
+            margin: 0;
+        }
+    }
+
+    .userInfo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+
+        div {
+            font-size: 1rem;
+            color: #333;
+        }
+    }
+
+    .signOutBtn {
+        margin-top: 1rem;
+        padding: 0.5rem 1.2rem;
+        background: #ea4335;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.2s;
+
+        &:hover {
+            background: #c62828;
+        }
+    }
+
+    .googleBtnWrapper {
+        display: flex;
+        flex-direction: column;
+
+        gap: 0.75rem;
+
+        p {
+            text-align: center;
+            color: #555;
+        }
+    }
+}

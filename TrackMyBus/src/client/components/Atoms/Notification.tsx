@@ -1,6 +1,10 @@
 import { useState } from "react";
 import styles from "../../styles/css/notification.module.css";
-import { IoIosNotifications } from "react-icons/io";
+import {
+  IoIosNotifications,
+  IoIosNotificationsOff,
+  IoIosNotificationsOutline,
+} from "react-icons/io";
 
 function urlB64ToUint8Array(base64String: string) {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -68,10 +72,85 @@ export default function Notification_() {
     }
   };
 
+  const unsubscribeOnClick = async () => {
+    try {
+      if (!("serviceWorker" in navigator)) {
+        setStatus("Service Worker not supported");
+        return;
+      }
+
+      setStatus("Looking up service worker registration...");
+      const registration = await navigator.serviceWorker.getRegistration();
+      if (!registration) {
+        setStatus("No service worker registration found");
+        return;
+      }
+
+      setStatus("Retrieving existing push subscription...");
+      const subscription = await registration.pushManager.getSubscription();
+      if (!subscription) {
+        setStatus("No active subscription found");
+        return;
+      }
+
+      setStatus("Unsubscribing locally...");
+      const success = await subscription.unsubscribe();
+      if (!success) {
+        setStatus("Failed to unsubscribe locally");
+        return;
+      }
+
+      setStatus("Notifying server to delete subscription...");
+      const subJson = (subscription as any).toJSON
+        ? (subscription as any).toJSON()
+        : subscription;
+      await fetch("/delete-subscription", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(subJson),
+      });
+
+      setStatus("Unsubscribed successfully");
+    } catch (err: any) {
+      console.error(err);
+      setStatus("Error: " + (err.message || err));
+    }
+  };
+
   return (
     <div className={styles.notification} style={{ padding: 8 }}>
-      <IoIosNotifications className="icon" onClick={subscribeOnClick} />
-      <span style={{ marginLeft: 12 }}>{status}</span>
+      {status === "idle" ? (
+        <IoIosNotificationsOutline
+          className="icon"
+          onClick={subscribeOnClick}
+          style={{ transition: "color 0.3s", color: "#888" }}
+        />
+      ) : status === "Subscribed successfully" ? (
+        <IoIosNotifications
+          className="icon"
+          onClick={unsubscribeOnClick}
+          style={{
+            transition: "color 0.3s",
+            color: "#4caf50",
+            animation: "pop 0.4s",
+          }}
+        />
+      ) : status === "Unsubscribed successfully" ? (
+        <IoIosNotificationsOff
+          className="icon"
+          onClick={subscribeOnClick}
+          style={{
+            transition: "color 0.3s",
+            color: "#f44336",
+            animation: "fade 0.4s",
+          }}
+        />
+      ) : (
+        <IoIosNotificationsOutline
+          className="icon"
+          style={{ transition: "color 0.3s", color: "#888" }}
+        />
+      )}
     </div>
   );
 }

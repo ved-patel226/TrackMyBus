@@ -5,7 +5,9 @@ import dotenv from "dotenv";
 import webpush from "web-push"; 
 import path from "path";
 
-dotenv.config();
+import { MongoDB } from "./mongo.js";
+
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 function getLocalIpAddress(): string {
   const nets = os.networkInterfaces();
@@ -91,8 +93,12 @@ app.get("/hello", (_, res) => {
   res.send("Hello Vite + React + TypeScript!");
 });
 
-// Serve static files from the "public" directory
 app.use(express.static(path.join("public")));
+console.log(VAPID_PRIVATE, VAPID_PUBLIC);
+
+let mongo = new MongoDB(process.env.MONGO_URI || "", "TrackMyBus");
+
+
 
 
 
